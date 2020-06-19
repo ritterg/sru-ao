@@ -1,16 +1,8 @@
-# Nextpack (light)
+# SRU Implementation for Archives Online
 
 [![Latest Stable Version](https://poser.pugx.org/ritterg/sru-ao/v/stable)](https://packagist.org/packages/ritterg/sru-ao) 
 [![License](https://poser.pugx.org/ritterg/sru-ao/license)](https://packagist.org/packages/ritterg/sru-ao)
 [![Gerold Ritter](https://img.shields.io/badge/Author-Gerold%20Ritter-orange.svg)](http://www.e-hist.ch)
-
-
-
-
-
-
-
-
 
 
 
