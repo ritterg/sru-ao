@@ -1,0 +1,44 @@
+{
+    "name": "ritterg/sru-ao",
+    "description": "Helper package to implement the SRU interface used by archivesonline.org",
+    "license": "MIT",
+    "keywords": [
+        "SRU",
+        "Archives Online",
+        "archivesonline.org"
+    ],
+    "authors": [{
+        "name": "Gerold Ritter",
+        "email": "ritter@e-hist.ch",
+        "homepage": "https://www.e-hist.ch",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": ">=7.2.0",
+        "illuminate/config": "5.2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "mockery/mockery": "0.*",
+        "symfony/var-dumper": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ritterg\\SruAo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ritterg\\SruAo\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "stable"
+}
