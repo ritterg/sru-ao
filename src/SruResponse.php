@@ -20,10 +20,10 @@ class SruResponse
      *
      * @param \Ritterg\SruAo\Config $config
      */
-    public function __construct(Config $config)
+    /*public function __construct(Config $config)
     {
         $this->config = $config;
-    }
+    }*/
 
     /**
      * @param $results
