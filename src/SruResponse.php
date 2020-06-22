@@ -47,13 +47,17 @@ class SruResponse
         $root->setAttribute('xsi:schemaLocation', 'http://www.loc.gov/zing/srw/ http://www.loc.gov/standards/sru/sru1-1archive/xml-files/srw-types.xsd');
 
         $root->appendChild($xmlDoc->createElement('version', '1.2'));
-        if ($totalcount !== null) {
+        // if there is a separate count of total results (i.e. not restricted by maximumRecords in query and this $totalcount is > the count of the $records. then show $totalcount, else show count($results)
+        $resultscount = count($results);
+        if ($totalcount !== null && $totalcount > $resultscount) {
             $root->appendChild($xmlDoc->createElement('numberOfRecords', $totalcount));
         } else {
-            $root->appendChild($xmlDoc->createElement('numberOfRecords', count($results)));
+            $root->appendChild($xmlDoc->createElement('numberOfRecords', $resultscount));
         }
+        // base elements for all records
         $records = $root->appendChild($xmlDoc->createElement("records"));
         $i = 1;
+        // each record
         foreach ($results as $result) {
             $record = $records->appendChild($xmlDoc->createElement('record'));
             $record->appendChild($xmlDoc->createElement('recordSchema', 'isad'));
@@ -62,19 +66,15 @@ class SruResponse
             $archivaldescription = $recordData->appendChild($xmlDoc->createElement('isad:archivaldescription'));
             $identity = $archivaldescription->appendChild($xmlDoc->createElement('isad:identity'));
             $context = $identity->appendChild($xmlDoc->createElement('isad:context'));
-            $context->appendChild($xmlDoc->createElement('isad:creator'));
-            $identity->appendChild($xmlDoc->createElement('isad:reference', $result['reference']));
-            $title = $xmlDoc->createElement('isad:title');
-            $title->appendChild($xmlDoc->createTextNode($result['title']));
-            $identity->appendChild($title);
-            $date = $xmlDoc->createElement('isad:date');
-            $date->appendChild($xmlDoc->createTextNode($result['date']));
-            $identity->appendChild($date);
-            $identity->appendChild($xmlDoc->createElement('isad:descriptionlevel'));
-            $identity->appendChild($xmlDoc->createElement('isad:extent'));
+
+            $this->appendChild($xmlDoc, 'isad:creator', $context, $result, 'creator');
+            $this->appendChild($xmlDoc, 'isad:title', $identity, $result, 'title');
+            $this->appendChild($xmlDoc, 'isad:date', $identity, $result, 'date');
+            $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
+            $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
+            $this->appendChild($xmlDoc, 'isad:extent', $identity, $result, 'extent');
 
             $record->appendChild($xmlDoc->createElement('recordPosition', $i++));
-
             $extraRecordData = $record->appendChild($xmlDoc->createElement('extraRecordData'));
             $score = $extraRecordData->appendChild($xmlDoc->createElement('rel:score'));
             $score->setAttribute('xmlns:rel', 'info:srw/extension/2/relevancy-1.0');
@@ -90,10 +90,23 @@ class SruResponse
             $endApprox = $extraRecordData->appendChild($xmlDoc->createElement('ap:endApprox', 0));
             $endApprox->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
         }
+        // end each record
 
         //make the output pretty
         $xmlDoc->formatOutput = true;
 
+        // return formatted xml
         return $xmlDoc->saveXML();
+    }
+
+    private function appendChild($xmlDoc, $fieldname, $parent, $result, $key)
+    {
+        if (isset($result[$key])) {
+            $element = $xmlDoc->createElement($fieldname);
+            $element->appendChild($xmlDoc->createTextNode($result[$key]));
+            $parent->appendChild($element);
+        } else {
+            $parent->appendChild($xmlDoc->createElement($fieldname));
+        }
     }
 }
