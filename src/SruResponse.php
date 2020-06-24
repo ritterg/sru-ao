@@ -7,8 +7,7 @@ namespace Ritterg\SruAo;
  *
  * @author  Gerold Ritter <ritter@e-hist.ch>
  */
-class SruResponse
-{
+class SruResponse {
 
     /**
      * @var  \Ritterg\SruAo\Config
@@ -20,18 +19,17 @@ class SruResponse
      *
      * @param \Ritterg\SruAo\Config $config
      */
-    /*public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }*/
+    /* public function __construct(Config $config)
+      {
+      $this->config = $config;
+      } */
 
     /**
      * @param $results
      *
      * @return  xml string
      */
-    public function composeSruResponse($results, $totalcount = null)
-    {
+    public function composeSruResponse($results, $totalcount = null) {
         // Output
         //create the xml document
         $xmlDoc = new \DOMDocument();
@@ -71,27 +69,22 @@ class SruResponse
             $this->appendChild($xmlDoc, 'isad:title', $identity, $result, 'title');
             $this->appendChild($xmlDoc, 'isad:date', $identity, $result, 'date');
             $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
-            $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
             $this->appendChild($xmlDoc, 'isad:extent', $identity, $result, 'extent');
 
             $record->appendChild($xmlDoc->createElement('recordPosition', $i++));
             $extraRecordData = $record->appendChild($xmlDoc->createElement('extraRecordData'));
             $score = $extraRecordData->appendChild($xmlDoc->createElement('rel:score'));
             $score->setAttribute('xmlns:rel', 'info:srw/extension/2/relevancy-1.0');
-            $link = $extraRecordData->appendChild($xmlDoc->createElement('ap:link'));
-            $link->appendChild($xmlDoc->createTextNode($result['link']));
-            $link->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
-            $beginDateISO = $extraRecordData->appendChild($xmlDoc->createElement('ap:beginDateISO', $result['beginDateISO']));
-            $beginDateISO->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
-            $beginApprox = $extraRecordData->appendChild($xmlDoc->createElement('ap:beginApprox', 0));
-            $beginApprox->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
-            $endDateISO = $extraRecordData->appendChild($xmlDoc->createElement('ap:endDateISO', $result['endDateISO']));
-            $endDateISO->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
-            $endApprox = $extraRecordData->appendChild($xmlDoc->createElement('ap:endApprox', 0));
-            $endApprox->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
+            if (isset($result['score'])) {
+                $score->appendChild($xmlDoc->createTextNode($result['score']));
+            }
+            $this->addExtraRecordData($xmlDoc, 'ap:link', $extraRecordData, $result, 'link');
+            $this->addExtraRecordData($xmlDoc, 'ap:beginDateISO', $extraRecordData, $result, 'beginDateISO');
+            $this->addExtraRecordData($xmlDoc, 'ap:beginApprox', $extraRecordData, $result, 'beginApprox');
+            $this->addExtraRecordData($xmlDoc, 'ap:endDateISO', $extraRecordData, $result, 'endDateISO');
+            $this->addExtraRecordData($xmlDoc, 'ap:endApprox', $extraRecordData, $result, 'endApprox');
         }
         // end each record
-
         //make the output pretty
         $xmlDoc->formatOutput = true;
 
@@ -99,8 +92,7 @@ class SruResponse
         return $xmlDoc->saveXML();
     }
 
-    private function appendChild($xmlDoc, $fieldname, $parent, $result, $key)
-    {
+    private function appendChild($xmlDoc, $fieldname, $parent, $result, $key) {
         if (isset($result[$key])) {
             $element = $xmlDoc->createElement($fieldname);
             $element->appendChild($xmlDoc->createTextNode($result[$key]));
@@ -109,4 +101,13 @@ class SruResponse
             $parent->appendChild($xmlDoc->createElement($fieldname));
         }
     }
+
+    private function addExtraRecordData($xmlDoc, $fieldname, $parent, $result, $key) {
+        $element = $parent->appendChild($xmlDoc->createElement($fieldname));
+        $element->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
+        if (isset($result[$key])) {
+            $element->appendChild($xmlDoc->createTextNode($result[$key]));
+        }
+    }
+
 }

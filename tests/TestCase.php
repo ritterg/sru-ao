@@ -2,7 +2,7 @@
 
 namespace Ritterg\SruAo\Tests;
 
-use PHPUnit_Framework_TestCase as PHPUnit;
+use PHPUnit\Framework\TestCase as PHPUnit;
 
 /**
  * Class TestCase
@@ -17,12 +17,12 @@ class TestCase extends PHPUnit
         parent::__construct();
     }
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         parent::tearDown();
     }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:isad="http://www.expertisecentrumdavid.be/xmlschemas/isad.xsd" xsi:schemaLocation="http://www.loc.gov/zing/srw/ http://www.loc.gov/standards/sru/sru1-1archive/xml-files/srw-types.xsd">
+  <version>1.2</version>
+  <numberOfRecords>0</numberOfRecords>
+  <records/>
+</searchRetrieveResponse>

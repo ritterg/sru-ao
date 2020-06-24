@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Nextpack Test Suite">
+        <testsuite name="SurAo Test Suite">
             <directory suffix=".php">./tests</directory>
             <exclude>./tests/TestCase.php</exclude>
         </testsuite>
@@ -20,8 +20,4 @@
             <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
-    <logging>
-        <!-- comment the line below to disable the code coverage reporting (HTML) -->
-        <!--<log type="coverage-html" target="build/coverage" charset="UTF-8" yui="true" highlight="true"/>-->
-    </logging>
 </phpunit>
