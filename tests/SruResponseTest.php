@@ -48,5 +48,14 @@ class SruResponseTest extends TestCase {
         $expected = file_get_contents(__DIR__ . '/testfiles/' . 'oneresult.xml');
         $this->assertEquals($result, $expected);
     }
+    
+    public function testComposeSruWithTotalCount() {
+        $records = [[]];
+        $totalcount = 500;
+        $sruresponse = new SruResponse;
+        $result = $sruresponse->composeSruResponse($records, $totalcount);
+        $expected = "<numberOfRecords>".$totalcount."</numberOfRecords>";
+        $this->assertStringContainsString($expected, $result);
+    }
 
 }
