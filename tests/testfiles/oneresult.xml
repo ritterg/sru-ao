@@ -27,6 +27,7 @@
         <ap:beginApprox xmlns:ap="http://www.archivportal.ch/srw/extension/">1</ap:beginApprox>
         <ap:endDateISO xmlns:ap="http://www.archivportal.ch/srw/extension/">2020-01-01</ap:endDateISO>
         <ap:endApprox xmlns:ap="http://www.archivportal.ch/srw/extension/">0</ap:endApprox>
+        <ap:hasDigitizedItems/>
       </extraRecordData>
     </record>
   </records>

@@ -7,7 +7,8 @@ namespace Ritterg\SruAo;
  *
  * @author  Gerold Ritter <ritter@e-hist.ch>
  */
-class SruResponse {
+class SruResponse
+{
 
     /**
      * @var  \Ritterg\SruAo\Config
@@ -29,7 +30,8 @@ class SruResponse {
      *
      * @return  xml string
      */
-    public function composeSruResponse($results, $totalcount = null) {
+    public function composeSruResponse($results, $totalcount = null)
+    {
         // Output
         //create the xml document
         $xmlDoc = new \DOMDocument();
@@ -83,6 +85,7 @@ class SruResponse {
             $this->addExtraRecordData($xmlDoc, 'ap:beginApprox', $extraRecordData, $result, 'beginApprox');
             $this->addExtraRecordData($xmlDoc, 'ap:endDateISO', $extraRecordData, $result, 'endDateISO');
             $this->addExtraRecordData($xmlDoc, 'ap:endApprox', $extraRecordData, $result, 'endApprox');
+            $this->appendChild($xmlDoc, 'ap:hasDigitizedItems', $extraRecordData, $result, 'hasDigitizedItems');
         }
         // end each record
         //make the output pretty
@@ -92,7 +95,8 @@ class SruResponse {
         return $xmlDoc->saveXML();
     }
 
-    private function appendChild($xmlDoc, $fieldname, $parent, $result, $key) {
+    private function appendChild($xmlDoc, $fieldname, $parent, $result, $key)
+    {
         if (isset($result[$key])) {
             $element = $xmlDoc->createElement($fieldname);
             $element->appendChild($xmlDoc->createTextNode($result[$key]));
@@ -102,12 +106,12 @@ class SruResponse {
         }
     }
 
-    private function addExtraRecordData($xmlDoc, $fieldname, $parent, $result, $key) {
+    private function addExtraRecordData($xmlDoc, $fieldname, $parent, $result, $key)
+    {
         $element = $parent->appendChild($xmlDoc->createElement($fieldname));
         $element->setAttribute('xmlns:ap', 'http://www.archivportal.ch/srw/extension/');
         if (isset($result[$key])) {
             $element->appendChild($xmlDoc->createTextNode($result[$key]));
         }
     }
-
 }
