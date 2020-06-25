@@ -3,6 +3,7 @@
 namespace Ritterg\SruAo\Tests;
 
 use Ritterg\SruAo\SruResponse;
+use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
 
 /**
  * Class SampleTest
@@ -58,4 +59,11 @@ class SruResponseTest extends TestCase {
         $this->assertStringContainsString($expected, $result);
     }
 
+    public function testWillThrowExceptionWhenFirstParamterIsNotArray()
+    {
+        $records = 'string';
+        $this->expectException(FirstParameterIsNotArray::class);
+        $sruresponse = new SruResponse;
+        $result = $sruresponse->composeSruResponse($records);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Ritterg\SruAo;
 
+use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
+
 /**
  * Class SruResponse
  *
@@ -32,6 +34,10 @@ class SruResponse
      */
     public function composeSruResponse($results, $totalcount = null)
     {
+        // test if first param is array
+        if (!is_array($results)) {
+            throw new FirstParameterIsNotArray("First parameter must be an array.");
+        }
         // Output
         //create the xml document
         $xmlDoc = new \DOMDocument();
