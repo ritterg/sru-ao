@@ -3,6 +3,7 @@
 namespace Ritterg\SruAo;
 
 use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
+use Ritterg\SruAo\Exceptions\SecondParameterIsNotInt;
 
 /**
  * Class SruResponse
@@ -38,6 +39,11 @@ class SruResponse
         if (!is_array($results)) {
             throw new FirstParameterIsNotArray("First parameter must be an array.");
         }
+        // test if second param is present and if yes, is it an integer
+        if ($totalcount !== null && !is_int($totalcount)) {
+            throw new SecondParameterIsNotInt("Second parameter must be null or an integer.");
+        }
+        
         // Output
         //create the xml document
         $xmlDoc = new \DOMDocument();
