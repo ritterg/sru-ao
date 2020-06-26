@@ -21,15 +21,13 @@
 
 
 ##### Software Requirement
-- Git
 - Composer
 
 
 ##### Installation Steps
 
-1. `git clone https://github.com/ritterg/sru-ao.git`
-2. `composer update`
-3. make sure everything is OK by running the tests `phpunit`
+1. `composer require ritterg/sru-ao`
+2. make sure everything is OK by running the tests `phpunit`
 
 
 
