@@ -15,22 +15,26 @@ use Ritterg\SruAo\Exceptions\SecondParameterIsNotInt;
  */
 class SruResponseTest extends TestCase
 {
+    protected $sruresponse;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+        $this->sruresponse = new SruResponse;
+    }
+
     public function testComposeSruWithNoRecords()
     {
         $records = [];
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records);
-        $expected = file_get_contents(__DIR__ . '/testfiles/' . 'noresults.xml');
-        $this->assertEquals($result, $expected);
+        $result = $this->sruresponse->composeSruResponse($records);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/testfiles/' . 'noresults.xml', $result);
     }
 
     public function testComposeSruWithEmptyRecord()
     {
         $records = [[]];
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records);
-        $expected = file_get_contents(__DIR__ . '/testfiles/' . 'emptyresult.xml');
-        $this->assertEquals($result, $expected);
+        $result = $this->sruresponse->composeSruResponse($records);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/testfiles/' . 'emptyresult.xml', $result);
     }
 
     public function testComposeSruWithOneRecord()
@@ -48,18 +52,15 @@ class SruResponseTest extends TestCase
             'endDateISO' => '2020-01-01',
             'endApprox' => 0,
         ]];
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records);
-        $expected = file_get_contents(__DIR__ . '/testfiles/' . 'oneresult.xml');
-        $this->assertEquals($result, $expected);
+        $result = $this->sruresponse->composeSruResponse($records);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/testfiles/' . 'oneresult.xml', $result);
     }
 
     public function testComposeSruWithTotalCount()
     {
         $records = [[]];
         $totalcount = 500;
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records, $totalcount);
+        $result = $this->sruresponse->composeSruResponse($records, $totalcount);
         $expected = "<numberOfRecords>" . $totalcount . "</numberOfRecords>";
         $this->assertStringContainsString($expected, $result);
     }
@@ -68,8 +69,7 @@ class SruResponseTest extends TestCase
     {
         $records = 'string';
         $this->expectException(FirstParameterIsNotArray::class);
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records);
+        $result = $this->sruresponse->composeSruResponse($records);
     }
 
     public function testWillThrowExceptionWhenSecondParamterIsNotInt()
@@ -77,7 +77,6 @@ class SruResponseTest extends TestCase
         $records = [[]];
         $totalcount = "string";
         $this->expectException(SecondParameterIsNotInt::class);
-        $sruresponse = new SruResponse;
-        $result = $sruresponse->composeSruResponse($records, $totalcount);
+        $result = $this->sruresponse->composeSruResponse($records, $totalcount);
     }
 }
