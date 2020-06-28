@@ -16,15 +16,22 @@ class SruQuery
      *
      * @return  array with sanitized query paramaters
      */
-    public function getQuery($params)
+    public function getQueryParams($inputparams)
     {
         // test if first param is array
-        if (!is_array($params)) {
+        if (!is_array($inputparams)) {
             throw new FirstParameterIsNotArray("First parameter must be an array.");
         }
+        $queryparams = [];
 
+        if (isset($inputparams['maximumRecords'])) {
+            $value = filter_var($inputparams['maximumRecords'], FILTER_VALIDATE_INT);
+            if ($value) {
+                $queryparams['limit'] = $value;
+            }
+        }
 
         // return array with sanitized query paramaters
-        return [];
+        return $queryparams;
     }
 }
