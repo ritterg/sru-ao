@@ -42,7 +42,7 @@ class SruQueryTest extends TestCase
             "maximumRecords" => $limit,
         ];
         $result = $this->sruquery->getQueryParams($params);
-        $this->assertEquals($limit, $result['limit']);
+        $this->assertEquals(['value' => $limit, 'operator' => '='], $result['limit']);
     }
     public function testFiltersIncorrectParams()
     {
