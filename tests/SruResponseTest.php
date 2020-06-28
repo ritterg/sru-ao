@@ -7,7 +7,7 @@ use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
 use Ritterg\SruAo\Exceptions\SecondParameterIsNotInt;
 
 /**
- * Class SampleTest
+ * Class SruResponseTest
  *
  * @category Test
  * @package  Ritterg\SruAo\Tests

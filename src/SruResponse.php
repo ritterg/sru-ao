@@ -14,21 +14,6 @@ class SruResponse
 {
 
     /**
-     * @var  \Ritterg\SruAo\Config
-     */
-    private $config;
-
-    /**
-     * Sample constructor.
-     *
-     * @param \Ritterg\SruAo\Config $config
-     */
-    /* public function __construct(Config $config)
-      {
-      $this->config = $config;
-      } */
-
-    /**
      * @param $results
      *
      * @return  xml string
@@ -43,7 +28,7 @@ class SruResponse
         if ($totalcount !== null && !is_int($totalcount)) {
             throw new SecondParameterIsNotInt("Second parameter must be null or an integer.");
         }
-        
+
         // Output
         //create the xml document
         $xmlDoc = new \DOMDocument();
