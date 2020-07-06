@@ -24,6 +24,8 @@ class SruQuery
         }
         $queryparams = [];
 
+        /* get param "query" contains the main sru query.
+        Archives Online supports only AND */
         if (isset($inputparams['query'])) {
             $query_param = rawurldecode($inputparams['query']);
             $query_parts = explode('AND', $query_param);
