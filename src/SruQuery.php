@@ -11,13 +11,40 @@ use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
  */
 class SruQuery
 {
+    protected $allowedfields;
+    protected $allowedoperators;
+
+    public function __construct()
+    {
+        $this->allowedfields = [
+            'Serverchoice' => 'fulltext',
+            'isad.reference' => 'reference',
+            'isad.title' => 'title',
+            'isad.date' => 'date',
+        ];
+        $this->allowedoperators = [
+            'all' => 'AND',
+            'any' => 'OR',
+            'adj' => 'ADJ',
+            '=' => 'LIKE',
+            '==' => 'LIKE',
+            '===' => '=',
+            'WITHIN' => '='
+        ];
+    }
     /**
      * @param $inputparams from GET query string
      *
      * @return  array with sanitized query paramaters
      */
-    public function getQueryParams($inputparams)
+    public function getQueryParams($inputparams, $allowedfields = null, $allowedoperators = null)
     {
+        if ($allowedfields === null) {
+            $allowedfields = $this->allowedfields;
+        }
+        if ($allowedoperators === null) {
+            $allowedoperators = $this->allowedoperators;
+        }
         // test if first param is array
         if (!is_array($inputparams)) {
             throw new FirstParameterIsNotArray("First parameter must be an array.");
@@ -27,58 +54,37 @@ class SruQuery
         /* get param "query" contains the main sru query.
         Archives Online supports only AND */
         if (isset($inputparams['query'])) {
-            $query_param = rawurldecode($inputparams['query']);
-            $query_parts = explode('AND', $query_param);
+            $query = rawurldecode($inputparams['query']);
+            $subqueries = explode('AND', $query);
 
             $query_array = [];
-        }
-        /*
-        foreach ($query_parts as $part) {
-            $part = str_replace(' WITHIN ', ' = ', $part);
-            $part = str_replace(' all ', ' = ', $part);
-            $parts_array = explode(' = ', $part);
-            if (count($parts_array) == 2 && trim($parts_array[1]) !== '""') {
-                $query_array[trim($parts_array[0])] = trim($parts_array[1], ' "');
-            }
-        }
-
-        foreach ($query_array as $key => $value) {
-            if (in_array($key, $allowedfields)) {
-                $query->where($key, 'LIKE', $value . '%');
-            }
-            if ($key == 'Serverchoice') {
-                $fields_to_search = $allowedfields;
-                $words = explode(' ', $value);
-                foreach ($words as $word) {
-                    $query->where(function ($query) use($word, $fields_to_search) {
-                        $where = 'where';
-                        foreach ($fields_to_search as $field) {
-                            $query->{$where}($field, 'LIKE', '%' . $word . '%');
-                            $where = 'orWhere';
-                        }
-                    });
+            foreach ($subqueries as $subquery) {
+                preg_match_all('/(.*) (all|any|adj|=|==|===|WITHIN) "(.*)"/', $subquery, $parts_array, PREG_PATTERN_ORDER);
+                if (count($parts_array) == 4 && trim($parts_array[3][0]) !== '""' && array_key_exists(trim($parts_array[1][0]), $allowedfields)) {
+                    $key = $allowedfields[trim($parts_array[1][0])];
+                    $operator = $allowedoperators[trim($parts_array[2][0])];
+                    $value = trim($parts_array[3][0]);
+                    if ($key == 'date') {
+                        $date_parts = explode(" ", $value);
+                        $queryparams[$key.'_start'] = ['value' => $date_parts[0] . "-01-01", 'operator' => '>='];
+                        $queryparams[$key.'_end'] = ['value' => $date_parts[1] . "-12-31", 'operator' => '<='];
+                    } else {
+                        $queryparams[$key] = ['value' => $value, 'operator' => $operator];
+                    }
                 }
             }
-            if ($key == 'date') {
-                $date = date("Y-m-d", strtotime($value));
-                $query->where('endDateISO', '>=', $date);
-                $query->where('beginDateISO', '<=', $date);
-            }
-            if ($key == 'isad.date') {
-                $date_parts = explode(" ", $value);
-                $query->where('endDateISO', '>=', $date_parts[0] . "-12-31");
-                $query->where('beginDateISO', '<=', $date_parts[1] . "-01-01");
-            }
-        } */
 
-        if (isset($inputparams['maximumRecords'])) {
-            $value = filter_var($inputparams['maximumRecords'], FILTER_VALIDATE_INT);
-            if ($value) {
-                $queryparams['limit'] = ['value' => $value, 'operator' => '='];
+            if (isset($inputparams['maximumRecords'])) {
+                $value = filter_var($inputparams['maximumRecords'], FILTER_VALIDATE_INT);
+                if ($value) {
+                    $queryparams['limit'] = ['value' => $value, 'operator' => '='];
+                }
             }
+
+            // return array with sanitized query paramaters
+            return $queryparams;
+        } else {
+            return [];
         }
-
-        // return array with sanitized query paramaters
-        return $queryparams;
     }
 }
