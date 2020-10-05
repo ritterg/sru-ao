@@ -9,13 +9,14 @@
       <recordData>
         <isad:archivaldescription>
           <isad:identity>
-            <isad:context>
-              <isad:creator>creator</isad:creator>
-            </isad:context>
+            <isad:reference>reference</isad:reference>
             <isad:title>title</isad:title>
             <isad:date>date</isad:date>
             <isad:descriptionlevel>descriptionlevel</isad:descriptionlevel>
             <isad:extent>extent</isad:extent>
+            <isad:context>
+              <isad:creator>creator</isad:creator>
+            </isad:context>
           </isad:identity>
         </isad:archivaldescription>
       </recordData>
@@ -27,7 +28,7 @@
         <ap:beginApprox xmlns:ap="http://www.archivportal.ch/srw/extension/">1</ap:beginApprox>
         <ap:endDateISO xmlns:ap="http://www.archivportal.ch/srw/extension/">2020-01-01</ap:endDateISO>
         <ap:endApprox xmlns:ap="http://www.archivportal.ch/srw/extension/">0</ap:endApprox>
-        <ap:hasDigitizedItems/>
+        <ap:hasDigitizedItems xmlns:ap="http://www.archivportal.ch/srw/extension/">1</ap:hasDigitizedItems>
       </extraRecordData>
     </record>
   </records>

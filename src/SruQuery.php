@@ -51,8 +51,8 @@ class SruQuery
         }
         $queryparams = [];
 
-        /* get param "query" contains the main sru query.
-        Archives Online supports only AND */
+        /* get param "query" contains the main sru query. */
+        /* Archives Online supports only AND */
         if (isset($inputparams['query'])) {
             $query = rawurldecode($inputparams['query']);
             $subqueries = explode('AND', $query);
@@ -66,8 +66,8 @@ class SruQuery
                     $value = trim($parts_array[3][0]);
                     if ($key == 'date') {
                         $date_parts = explode(" ", $value);
-                        $queryparams[$key.'_start'] = ['value' => $date_parts[0] . "-01-01", 'operator' => '>='];
-                        $queryparams[$key.'_end'] = ['value' => $date_parts[1] . "-12-31", 'operator' => '<='];
+                        $queryparams[$key . '_start'] = ['value' => $date_parts[0] . "-01-01", 'operator' => '>='];
+                        $queryparams[$key . '_end'] = ['value' => $date_parts[1] . "-12-31", 'operator' => '<='];
                     } else {
                         $queryparams[$key] = ['value' => $value, 'operator' => $operator];
                     }

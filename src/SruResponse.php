@@ -4,6 +4,7 @@ namespace Ritterg\SruAo;
 
 use Ritterg\SruAo\Exceptions\FirstParameterIsNotArray;
 use Ritterg\SruAo\Exceptions\SecondParameterIsNotInt;
+use Ritterg\SruAo\Exceptions\ThirdParameterIsNotValid;
 
 /**
  * Class SruResponse
@@ -13,12 +14,33 @@ use Ritterg\SruAo\Exceptions\SecondParameterIsNotInt;
 class SruResponse
 {
 
+    protected $keys;
+
+    public function __construct()
+    {
+        $this->keys = [
+            'reference' => 'reference',
+            'title' => 'title',
+            'date' => 'date',
+            'descriptionlevel' => 'descriptionlevel',
+            'extend' => 'extend',
+            'creator' => 'creator',
+            'score' => 'score',
+            'link' => 'link',
+            'beginDateISO' => 'beginDateISO',
+            'beginApprox' => 'beginApprox',
+            'endDateISO' => 'endDateISO',
+            'endApprox' => 'endApprox',
+            'hasDigitizedItems' => 'hasDigitizedItems',
+        ];
+    }
+
     /**
      * @param $results
      *
      * @return  xml string
      */
-    public function composeSruResponse($results, $totalcount = null)
+    public function composeSruResponse($results, $totalcount = null, $keys = null)
     {
         // test if first param is array
         if (!is_array($results)) {
@@ -27,6 +49,16 @@ class SruResponse
         // test if second param is present and if yes, is it an integer
         if ($totalcount !== null && !is_int($totalcount)) {
             throw new SecondParameterIsNotInt("Second parameter must be null or an integer.");
+        }
+
+        // test if third param is present and if yes, is it an array with the same number of items as $this->key
+        if ($keys !== null) {
+            if (is_array($keys) && count($keys) == count($this->keys)) {
+                // replace internal keys array with $keys parameter if $keys is valid
+                $this->keys = $keys;
+            } else {
+                throw new ThirdParameterIsNotValid("Third parameter must be null or an array with " . count($this->keys) . " items.");
+            }
         }
 
         // Output
@@ -44,7 +76,7 @@ class SruResponse
         $root->setAttribute('xsi:schemaLocation', 'http://www.loc.gov/zing/srw/ http://www.loc.gov/standards/sru/sru1-1archive/xml-files/srw-types.xsd');
 
         $root->appendChild($xmlDoc->createElement('version', '1.2'));
-        // if there is a separate count of total results (i.e. not restricted by maximumRecords in query and this $totalcount is > the count of the $records. then show $totalcount, else show count($results)
+        // if there is a separate count of total results (i.e. not restricted by maximumRecords in query and $totalcount is > count($results), then show $totalcount, else show count($results))
         $resultscount = count($results);
         if ($totalcount !== null && $totalcount > $resultscount) {
             $root->appendChild($xmlDoc->createElement('numberOfRecords', $totalcount));
@@ -64,11 +96,12 @@ class SruResponse
             $identity = $archivaldescription->appendChild($xmlDoc->createElement('isad:identity'));
             $context = $identity->appendChild($xmlDoc->createElement('isad:context'));
 
-            $this->appendChild($xmlDoc, 'isad:creator', $context, $result, 'creator');
+            $this->appendChild($xmlDoc, 'isad:reference', $identity, $result, 'reference');
             $this->appendChild($xmlDoc, 'isad:title', $identity, $result, 'title');
             $this->appendChild($xmlDoc, 'isad:date', $identity, $result, 'date');
             $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
             $this->appendChild($xmlDoc, 'isad:extent', $identity, $result, 'extent');
+            $this->appendChild($xmlDoc, 'isad:creator', $context, $result, 'creator');
 
             $record->appendChild($xmlDoc->createElement('recordPosition', $i++));
             $extraRecordData = $record->appendChild($xmlDoc->createElement('extraRecordData'));
