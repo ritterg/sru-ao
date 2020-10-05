@@ -30,8 +30,11 @@ Just require ritterg/sru-ao within your project
 ### SruResponse
 ```php
 $sruresponse = new SruResponse;
-$sruresponse->composeSruResponse($results, $totalcount, $keys);
+$xml = $sruresponse->composeSruResponse($results, $totalcount, $keys);
 ```
+`$xml` will be an XML string suitable to return to archives-online.org.
+
+#### Parameters
 `$results` is the array of records that you want to send to archives-online.org.
 
 archives-online.org has 13 fields per record
@@ -46,8 +49,8 @@ archives-online.org has 13 fields per record
 * beginDateISO: the start date of the archival unit in ISO format YYYY-MM-DD
 * beginApprox: true if the start date is approximate, false if the date is exact
 * endDateISO: the end date of the archival unit in ISO format YYYY-MM-DD
-* endApprox': true if the start date is approximate, false if the date is exact
-* hasDigitizedItems': true if the archival unit has digitized items attached, false otherwise (this field is optional)
+* endApprox: true if the start date is approximate, false if the date is exact
+* hasDigitizedItems: true if the archival unit has digitized items attached, false otherwise (this field is optional)
 
 `$totalcount` is the number of total results in your database
 An SRU query contains a parameter "maximumRecords" to indicate how many results should be returned. If your query has more results, you can return the number of total results in $totalcount.
@@ -56,20 +59,20 @@ An SRU query contains a parameter "maximumRecords" to indicate how many results 
 
 If you have e.g. German keys in your results array, a $keys array could look like this:
 ```php
-$keys = [\
-'reference' => 'signatur',\
-'title' => 'titel',\
-'date' => 'datum',\
-'descriptionlevel' => 'stufe',\
-'extend' => 'umfang',\
-'creator' => 'autor',\
-'score' => 'relevanz',\
-'link' => 'url',\
-'beginDateISO' => 'anfangsdatum',\  
-'beginApprox' => 'anfangca',\
-'endDateISO' => 'enddatum',\
-'endApprox' => 'endca',\
-'hasDigitizedItems' => 'digitalisate',\
+$keys = [
+'reference' => 'signatur',
+'title' => 'titel',
+'date' => 'datum',
+'descriptionlevel' => 'stufe',
+'extend' => 'umfang',
+'creator' => 'autor',
+'score' => 'relevanz',
+'link' => 'url',
+'beginDateISO' => 'anfangsdatum',
+'beginApprox' => 'anfangca',
+'endDateISO' => 'enddatum',
+'endApprox' => 'endca',
+'hasDigitizedItems' => 'digitalisate',
 ];
 ```
 
