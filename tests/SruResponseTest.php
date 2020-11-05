@@ -82,7 +82,7 @@ class SruResponseTest extends TestCase
             'title' => 'titel',
             'date' => 'datum',
             'descriptionlevel' => 'stufe',
-            'extend' => 'umfang',
+            'extent' => 'umfang',
             'creator' => 'autor',
             'score' => 'relevanz',
             'link' => 'url',
@@ -93,6 +93,7 @@ class SruResponseTest extends TestCase
             'hasDigitizedItems' => 'digitalisate',
         ];
         $result = $this->sruresponse->composeSruResponse($records, $totalcount, $keys);
+        dd($result);
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/testfiles/' . 'oneresult.xml', $result);
     }
 

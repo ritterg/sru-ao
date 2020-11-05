@@ -23,7 +23,7 @@ class SruResponse
             'title' => 'title',
             'date' => 'date',
             'descriptionlevel' => 'descriptionlevel',
-            'extend' => 'extend',
+            'extent' => 'extent',
             'creator' => 'creator',
             'score' => 'score',
             'link' => 'link',
@@ -127,6 +127,7 @@ class SruResponse
 
     private function appendChild($xmlDoc, $fieldname, $parent, $result, $key)
     {
+        $key = $this->keys[$key];
         if (isset($result[$key])) {
             $element = $xmlDoc->createElement($fieldname);
             $element->appendChild($xmlDoc->createTextNode($result[$key]));

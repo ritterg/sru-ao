@@ -25,7 +25,10 @@ Just require ritterg/sru-ao within your project
 
 ## Usage
 ### SruQuery
-...
+archives-online.org SRU queries come in a special format like
+`https://server.tld/SRU/?operation=searchretrieve&version=1.2&query=Serverchoice%20all%20%22Switzerland%20Germany%22%20AND%20isad.date%20WITHIN%20%221000%202000%22&maximumRecords=50
+`
+The SruQuery class helps you to parse this query.
 
 ### SruResponse
 ```php
@@ -52,7 +55,7 @@ archives-online.org has 13 fields per record
 * endApprox: true if the start date is approximate, false if the date is exact
 * hasDigitizedItems: true if the archival unit has digitized items attached, false otherwise (this field is optional)
 
-`$totalcount` is the number of total results in your database
+`$totalcount` is the number of total results in your database.  
 An SRU query contains a parameter "maximumRecords" to indicate how many results should be returned. If your query has more results, you can return the number of total results in $totalcount.
 
 `$keys` is an array of alternative array keys. If your results have different keys than the standard SRU keys, you can add an array of keys to match your keys with the standard keys.
