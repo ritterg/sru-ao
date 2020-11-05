@@ -79,6 +79,8 @@ $keys = [
 ];
 ```
 
+Check your XML-response with [https://archives-online.org/srutest]https://archives-online.org/srutest
+
 ## Test
 
 To run the tests, run the following command from the project folder.
