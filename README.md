@@ -79,7 +79,7 @@ $keys = [
 ];
 ```
 
-Check your XML-response with [https://archives-online.org/srutest]https://archives-online.org/srutest
+Check your XML-response with [https://archives-online.org/srutest](https://archives-online.org/srutest)
 
 ## Test
 
