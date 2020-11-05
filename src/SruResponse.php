@@ -93,14 +93,15 @@ class SruResponse
             $record->appendChild($xmlDoc->createElement('recordPacking', 'xml'));
             $recordData = $record->appendChild($xmlDoc->createElement('recordData'));
             $archivaldescription = $recordData->appendChild($xmlDoc->createElement('isad:archivaldescription'));
-            $identity = $archivaldescription->appendChild($xmlDoc->createElement('isad:identity'));
-            $context = $identity->appendChild($xmlDoc->createElement('isad:context'));
 
+            $identity = $archivaldescription->appendChild($xmlDoc->createElement('isad:identity'));
             $this->appendChild($xmlDoc, 'isad:reference', $identity, $result, 'reference');
             $this->appendChild($xmlDoc, 'isad:title', $identity, $result, 'title');
             $this->appendChild($xmlDoc, 'isad:date', $identity, $result, 'date');
             $this->appendChild($xmlDoc, 'isad:descriptionlevel', $identity, $result, 'descriptionlevel');
             $this->appendChild($xmlDoc, 'isad:extent', $identity, $result, 'extent');
+
+            $context = $archivaldescription->appendChild($xmlDoc->createElement('isad:context'));
             $this->appendChild($xmlDoc, 'isad:creator', $context, $result, 'creator');
 
             $record->appendChild($xmlDoc->createElement('recordPosition', $i++));
