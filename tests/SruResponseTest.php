@@ -93,7 +93,6 @@ class SruResponseTest extends TestCase
             'hasDigitizedItems' => 'digitalisate',
         ];
         $result = $this->sruresponse->composeSruResponse($records, $totalcount, $keys);
-        dd($result);
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/testfiles/' . 'oneresult.xml', $result);
     }
 

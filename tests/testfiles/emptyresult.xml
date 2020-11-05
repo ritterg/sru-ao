@@ -9,14 +9,14 @@
       <recordData>
         <isad:archivaldescription>
           <isad:identity>
-            <isad:context>
-              <isad:creator/>
-            </isad:context>
             <isad:title/>
             <isad:date/>
             <isad:descriptionlevel/>
             <isad:extent/>
           </isad:identity>
+          <isad:context>
+            <isad:creator/>
+          </isad:context>
         </isad:archivaldescription>
       </recordData>
       <recordPosition>1</recordPosition>

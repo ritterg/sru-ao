@@ -14,10 +14,10 @@
             <isad:date>date</isad:date>
             <isad:descriptionlevel>descriptionlevel</isad:descriptionlevel>
             <isad:extent>extent</isad:extent>
-            <isad:context>
-              <isad:creator>creator</isad:creator>
-            </isad:context>
           </isad:identity>
+          <isad:context>
+            <isad:creator>creator</isad:creator>
+          </isad:context>
         </isad:archivaldescription>
       </recordData>
       <recordPosition>1</recordPosition>
