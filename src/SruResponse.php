@@ -115,7 +115,7 @@ class SruResponse
             $this->addExtraRecordData($xmlDoc, 'ap:beginApprox', $extraRecordData, $result, 'beginApprox');
             $this->addExtraRecordData($xmlDoc, 'ap:endDateISO', $extraRecordData, $result, 'endDateISO');
             $this->addExtraRecordData($xmlDoc, 'ap:endApprox', $extraRecordData, $result, 'endApprox');
-            $this->appendChild($xmlDoc, 'ap:hasDigitizedItems', $extraRecordData, $result, 'hasDigitizedItems');
+            $this->addExtraRecordData($xmlDoc, 'ap:hasDigitizedItems', $extraRecordData, $result, 'hasDigitizedItems');
         }
         // end each record
         //make the output pretty

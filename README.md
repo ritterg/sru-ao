@@ -8,7 +8,7 @@
 
 **SRU-AO** is a PHP & Laravel package to facilitate the implementation of an archives-online.org compatible SRU interfaces to your archival database.  
 
-* Feed the archives-online.org query to the SruQuery::getQueryParams function and it will parse the query return an array of fields and operators.
+* Feed the archives-online.org query to the SruQuery::getQueryParams function and it will parse the query and return an array of fields and operators.
 * Provide an array with query results to the SruResponse::composeSruResponse function and it will return a formatted an valid XML-Response you can serve to the archives-online.org query.
 
 
