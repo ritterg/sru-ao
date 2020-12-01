@@ -61,10 +61,11 @@ class SruQuery
             foreach ($subqueries as $subquery) {
                 preg_match_all('/(.*) (all|any|adj|=|==|===|WITHIN) "(.*)"/', $subquery, $parts_array, PREG_PATTERN_ORDER);
                 if (count($parts_array) == 4 && trim($parts_array[3][0]) !== '""' && array_key_exists(trim($parts_array[1][0]), $allowedfields)) {
-                    $key = $allowedfields[trim($parts_array[1][0])];
+                    $originalkey = trim($parts_array[1][0]);
+                    $key = $allowedfields[$originalkey];
                     $operator = $allowedoperators[trim($parts_array[2][0])];
                     $value = trim($parts_array[3][0]);
-                    if ($key == 'date') {
+                    if ($originalkey == 'isad.date') {
                         $date_parts = explode(" ", $value);
                         $queryparams[$key . '_start'] = ['value' => $date_parts[0] . "-01-01", 'operator' => '>='];
                         $queryparams[$key . '_end'] = ['value' => $date_parts[1] . "-12-31", 'operator' => '<='];
@@ -79,6 +80,9 @@ class SruQuery
                 if ($value) {
                     $queryparams['limit'] = ['value' => $value, 'operator' => '='];
                 }
+            } else {
+                // 50 is the default limit for Archives Online
+                $queryparams['limit'] = ['value' => 50, 'operator' => '='];
             }
 
             // return array with sanitized query paramaters
