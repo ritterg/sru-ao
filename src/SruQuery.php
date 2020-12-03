@@ -60,7 +60,7 @@ class SruQuery
             $query_array = [];
             foreach ($subqueries as $subquery) {
                 preg_match_all('/(.*) (all|any|adj|=|==|===|WITHIN) "(.*)"/', $subquery, $parts_array, PREG_PATTERN_ORDER);
-                if (count($parts_array) == 4 && trim($parts_array[3][0]) !== '""' && array_key_exists(trim($parts_array[1][0]), $allowedfields)) {
+                if (count($parts_array) == 4 && isset($parts_array[3][0]) && trim($parts_array[3][0]) !== '""' && isset($parts_array[1][0]) && array_key_exists(trim($parts_array[1][0]), $allowedfields)) {
                     $originalkey = trim($parts_array[1][0]);
                     $key = $allowedfields[$originalkey];
                     $operator = $allowedoperators[trim($parts_array[2][0])];
