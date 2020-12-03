@@ -79,10 +79,13 @@ class SruQuery
                 $value = filter_var($inputparams['maximumRecords'], FILTER_VALIDATE_INT);
                 if ($value) {
                     $queryparams['limit'] = ['value' => $value, 'operator' => '='];
+                } else {
+                    // 50 is the default limit for Archives Online
+                    $queryparams['limit'] = 50;
                 }
             } else {
                 // 50 is the default limit for Archives Online
-                $queryparams['limit'] = ['value' => 50, 'operator' => '='];
+                $queryparams['limit'] = 50;
             }
 
             // return array with sanitized query paramaters
