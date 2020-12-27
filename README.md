@@ -26,7 +26,7 @@ Just require ritterg/sru-ao within your project
 ## Usage
 ### SruQuery
 archives-online.org SRU queries come in a special format like
-`https://server.tld/SRU?operation=searchretrieve&version=1.2&query=Serverchoice%20all%20%22Switzerland%20Germany%22%20AND%20isad.date%20WITHIN%20%221000%2020%22&maximumRecords=50
+`https://server.tld/SRU?operation=searchretrieve&version=1.2&query=Serverchoice%20all%20%22Switzerland%20Germany%22%20AND%20isad.date%20WITHIN%20%221000%202000%22&maximumRecords=50
 `
 The SruQuery class helps you to parse this query.
 
