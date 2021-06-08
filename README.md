@@ -25,13 +25,76 @@ Just require ritterg/sru-ao within your project
 
 ## Usage
 ### SruQuery
-archives-online.org SRU queries come in a special format like
-`https://server.tld/SRU?operation=searchretrieve&version=1.2&query=Serverchoice%20all%20%22Switzerland%20Germany%22%20AND%20isad.date%20WITHIN%20%221000%202000%22&maximumRecords=50
-`
+archives-online.org SRU queries come in a special format like 
+`https://server.tld/SRU?operation=searchretrieve&version=1.2&query=Serverchoice%20all%20%22Switzerland%20Germany%22%20AND%20isad.date%20WITHIN%20%221000%202000%22&maximumRecords=50` 
 The SruQuery class helps you to parse this query.
+
+```php
+use Ritterg\SruAo\SruQuery;
+
+$sruquery = new SruQuery;
+$searchparams = $sruquery->getQueryParams($request, $allowedfields = null, $allowedoperators = null);
+```
+`$searchparams` will be an array with all the sanitized and renamed query parameters from the sru query.
+
+#### Parameters
+`$request` is the array of input parameters from the query (i.e. $_GET).
+
+`$allowedfields` is an array of allowed query fields and the string they should be renamed to. Default values are
+
+```php
+$allowedfields = [
+	'Serverchoice' => 'fulltext', 
+	'isad.reference' => 'reference', 
+	'isad.title' => 'title', 
+	'isad.date' => 'date', 
+];
+```
+
+`$allowedoperators` is an array of allowed operators and the string they should be rewritten to. Default values are
+
+```php
+$allowedoperators = [  
+	'all' => 'AND',  
+	'any' => 'OR',  
+	'adj' => 'ADJ',  
+	'=' => 'LIKE',  
+	'==' => 'LIKE',  
+	'===' => '=',  
+	'WITHIN' => '='  
+];
+```
+
+You can override these defaults with walues that best fit your database
+
+#### Result
+The result is an array with all query parameters. For each parameter, there is another array with the value and the operator.
+
+For the query above the result would be
+
+```php
+$searchparams = [
+  "fulltext" => [
+    "value" => "Switzerland Germany"
+    "operator" => "AND"
+  ]
+  "date_start" => [
+    "value" => "1000-01-01"
+    "operator" => ">="
+  ]
+  "date_end" => [
+    "value" => "2000-12-31"
+    "operator" => "<="
+  ]
+  "limit" => 50
+]
+```
+Take these parameters and build the query for your database.
 
 ### SruResponse
 ```php
+use Ritterg\SruAo\SruQuery;
+
 $sruresponse = new SruResponse;
 $xml = $sruresponse->composeSruResponse($results, $totalcount, $keys);
 ```
