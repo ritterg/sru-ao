@@ -51,10 +51,13 @@ class SruQuery
         }
         $queryparams = [];
 
-        /* get param "query" contains the main sru query. */
+        /* get param "query"; this contains the main sru query. */
         /* Archives Online supports only AND */
         if (isset($inputparams['query'])) {
             $query = rawurldecode($inputparams['query']);
+            // filter AND within Serverchoice/fulltext query
+            $query = preg_replace('/(Serverchoice (?:all|any|adj) "[^"]+)\b(?:and|AND)\b([^"]+")/', '\1\2', $query);
+            $query = preg_replace('/\s+/', ' ', $query);
             $subqueries = explode('AND', $query);
 
             $query_array = [];
