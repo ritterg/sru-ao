@@ -38,7 +38,8 @@ class SruQueryTest extends TestCase
 
     public function testReturnsCorrectParams()
     {
-        $fulltextstring = "fulltextstring";
+        $fulltextstring_with_and = "string1 AND string2";
+        $fulltextstring = "string1 string2";
         $reference = "reference";
         $title = "title";
         $unknown = "unknown";
@@ -46,7 +47,7 @@ class SruQueryTest extends TestCase
         $date_end = "2000";
         $limit = "50";
         $params = [
-            "query" => 'Serverchoice all "' . $fulltextstring . '" AND isad.reference == "' . $reference . '" AND isad.title === "' . $title . '" AND isad.unknown === "' . $unknown . '" AND isad.date WITHIN "' . $date_start . ' ' . $date_end . '"',
+            "query" => 'Serverchoice all "' . $fulltextstring_with_and . '" AND isad.reference == "' . $reference . '" AND isad.title === "' . $title . '" AND isad.unknown === "' . $unknown . '" AND isad.date WITHIN "' . $date_start . ' ' . $date_end . '"',
             /* "query" => 'Serverchoice%20all%20%22Regierungsrat%22%20AND%20isad.date%20WITHIN%20%221000%202000%22', */
             "maximumRecords" => $limit,
         ];
